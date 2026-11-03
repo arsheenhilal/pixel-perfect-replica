@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DiscoverRouteImport } from './routes/discover'
+import { Route as ReadOnlineRouteImport } from './routes/read-online'
+import { Route as BookSourceIdRouteImport } from './routes/book.$source.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +24,49 @@ const DiscoverRoute = DiscoverRouteImport.update({
   path: '/discover',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReadOnlineRoute = ReadOnlineRouteImport.update({
+  id: '/read-online',
+  path: '/read-online',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookSourceIdRoute = BookSourceIdRouteImport.update({
+  id: '/book/$source/$id',
+  path: '/book/$source/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/discover': typeof DiscoverRoute
+  '/read-online': typeof ReadOnlineRoute
+  '/book/$source/$id': typeof BookSourceIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/discover': typeof DiscoverRoute
+  '/read-online': typeof ReadOnlineRoute
+  '/book/$source/$id': typeof BookSourceIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/discover': typeof DiscoverRoute
+  '/read-online': typeof ReadOnlineRoute
+  '/book/$source/$id': typeof BookSourceIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/discover'
+  fullPaths: '/' | '/discover' | '/read-online' | '/book/$source/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/discover'
-  id: '__root__' | '/' | '/discover'
+  to: '/' | '/discover' | '/read-online' | '/book/$source/$id'
+  id: '__root__' | '/' | '/discover' | '/read-online' | '/book/$source/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DiscoverRoute: typeof DiscoverRoute
+  ReadOnlineRoute: typeof ReadOnlineRoute
+  BookSourceIdRoute: typeof BookSourceIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +85,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DiscoverRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/read-online': {
+      id: '/read-online'
+      path: '/read-online'
+      fullPath: '/read-online'
+      preLoaderRoute: typeof ReadOnlineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book/$source/$id': {
+      id: '/book/$source/$id'
+      path: '/book/$source/$id'
+      fullPath: '/book/$source/$id'
+      preLoaderRoute: typeof BookSourceIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DiscoverRoute: DiscoverRoute,
+  ReadOnlineRoute: ReadOnlineRoute,
+  BookSourceIdRoute: BookSourceIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
