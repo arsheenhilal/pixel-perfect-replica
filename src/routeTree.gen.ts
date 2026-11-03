@@ -10,33 +10,89 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DiscoverRouteImport } from './routes/discover'
+import { Route as ReadOnlineRouteImport } from './routes/read-online'
+import { Route as BookSourceIdRouteImport } from './routes/book.$source.$id'
+import { Route as ReadSourceIdRouteImport } from './routes/read.$source.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DiscoverRoute = DiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReadOnlineRoute = ReadOnlineRouteImport.update({
+  id: '/read-online',
+  path: '/read-online',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookSourceIdRoute = BookSourceIdRouteImport.update({
+  id: '/book/$source/$id',
+  path: '/book/$source/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReadSourceIdRoute = ReadSourceIdRouteImport.update({
+  id: '/read/$source/$id',
+  path: '/read/$source/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/discover': typeof DiscoverRoute
+  '/read-online': typeof ReadOnlineRoute
+  '/book/$source/$id': typeof BookSourceIdRoute
+  '/read/$source/$id': typeof ReadSourceIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/discover': typeof DiscoverRoute
+  '/read-online': typeof ReadOnlineRoute
+  '/book/$source/$id': typeof BookSourceIdRoute
+  '/read/$source/$id': typeof ReadSourceIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/discover': typeof DiscoverRoute
+  '/read-online': typeof ReadOnlineRoute
+  '/book/$source/$id': typeof BookSourceIdRoute
+  '/read/$source/$id': typeof ReadSourceIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/discover'
+    | '/read-online'
+    | '/book/$source/$id'
+    | '/read/$source/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/discover'
+    | '/read-online'
+    | '/book/$source/$id'
+    | '/read/$source/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/discover'
+    | '/read-online'
+    | '/book/$source/$id'
+    | '/read/$source/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DiscoverRoute: typeof DiscoverRoute
+  ReadOnlineRoute: typeof ReadOnlineRoute
+  BookSourceIdRoute: typeof BookSourceIdRoute
+  ReadSourceIdRoute: typeof ReadSourceIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +104,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/discover': {
+      id: '/discover'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof DiscoverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/read-online': {
+      id: '/read-online'
+      path: '/read-online'
+      fullPath: '/read-online'
+      preLoaderRoute: typeof ReadOnlineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book/$source/$id': {
+      id: '/book/$source/$id'
+      path: '/book/$source/$id'
+      fullPath: '/book/$source/$id'
+      preLoaderRoute: typeof BookSourceIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/read/$source/$id': {
+      id: '/read/$source/$id'
+      path: '/read/$source/$id'
+      fullPath: '/read/$source/$id'
+      preLoaderRoute: typeof ReadSourceIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DiscoverRoute: DiscoverRoute,
+  ReadOnlineRoute: ReadOnlineRoute,
+  BookSourceIdRoute: BookSourceIdRoute,
+  ReadSourceIdRoute: ReadSourceIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
